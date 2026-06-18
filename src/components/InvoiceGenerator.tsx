@@ -22,8 +22,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import logoAsset from "@/assets/gee-logo-black.png.asset.json";
-import qrAsset from "@/assets/gee-qr.png.asset.json";
+import logoAsset from "@/assets/gee black logo.png";
+import qrAsset from "@/assets/gee qr.png";
 
 type ItemPreset = { name: string; price: number };
 
@@ -370,7 +370,7 @@ export default function InvoiceGenerator() {
       <header className="no-print sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">
-            <img src={logoAsset.url} alt="GEE GRAPHICS" className="h-10 w-auto object-contain dark:invert" />
+            <img src={logoAsset} alt="GEE GRAPHICS" className="h-10 w-auto object-contain dark:invert" />
             {savedAt && (
               <span className="hidden text-[10px] text-muted-foreground sm:inline">
                 Auto-saved · {savedAt.toLocaleTimeString()}
@@ -846,7 +846,7 @@ function FooterBlocks() {
         <div className="text-[8.5px] leading-snug text-neutral-600">
           For concerns, inquiries, and order assistance
         </div>
-        <img src={qrAsset.url} alt="QR" className="mt-1 h-24 w-24 object-contain" crossOrigin="anonymous" />
+        <img src={qrAsset} alt="QR" className="mt-1 h-24 w-24 object-contain" crossOrigin="anonymous" />
       </div>
     </div>
   );
@@ -869,7 +869,7 @@ function TemplateLong({ innerRef, state, subtotal, totalQty, discountAmount, tot
       <div id="invoice-print" ref={innerRef} className="receipt-paper">
         <div className="px-6 pb-6 pt-2">
           <div className="flex flex-col items-center text-center">
-            <img src={logoAsset.url} alt="GEE GRAPHICS" className="h-20 w-auto object-contain" crossOrigin="anonymous" />
+            <img src={logoAsset} alt="GEE GRAPHICS" className="h-20 w-auto object-contain" crossOrigin="anonymous" />
             <div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-neutral-500">Official Receipt</div>
             <div className="mt-3 text-[10px] leading-relaxed text-neutral-600">geegraphics8@gmail.com · 0915-494-1544</div>
           </div>
@@ -970,7 +970,7 @@ function TemplateBox({ innerRef, state, subtotal, totalQty, discountAmount, tota
       <div id="invoice-print" ref={innerRef} className="rounded-md border-2 border-black bg-white p-8 text-black shadow-xl">
         <div className="flex items-start justify-between border-b-2 border-black pb-4">
           <div className="flex items-center gap-4">
-            <img src={logoAsset.url} alt="GEE GRAPHICS" className="h-16 w-auto object-contain" crossOrigin="anonymous" />
+            <img src={logoAsset} alt="GEE GRAPHICS" className="h-16 w-auto object-contain" crossOrigin="anonymous" />
             <div>
               <div className="font-display text-xl font-bold tracking-tight">GEE GRAPHICS</div>
               <div className="text-[10px] text-neutral-600">geegraphics8@gmail.com · 0915-494-1544</div>
@@ -1067,7 +1067,7 @@ function TemplateCompact({ innerRef, state, subtotal, totalQty, discountAmount, 
     <div className="mx-auto w-full" style={{ maxWidth: 320 }}>
       <div id="invoice-print" ref={innerRef} className="rounded-sm bg-white p-5 text-black shadow-lg">
         <div className="flex items-center justify-between">
-          <img src={logoAsset.url} alt="GG" className="h-8 w-auto object-contain" crossOrigin="anonymous" />
+          <img src={logoAsset} alt="GG" className="h-8 w-auto object-contain" crossOrigin="anonymous" />
           <div className="text-right">
             <div className="text-[10px] font-bold tabular-nums">{state.invoiceNumber}</div>
             <div className="text-[9px] text-neutral-500">{state.dateCreated}</div>
@@ -1121,7 +1121,7 @@ function TemplateModern({ innerRef, state, subtotal, totalQty, discountAmount, t
       <div id="invoice-print" ref={innerRef} className="overflow-hidden rounded-2xl bg-white text-black shadow-2xl">
         <div className="bg-black p-6 text-white">
           <div className="flex items-center justify-between">
-            <img src={logoAsset.url} alt="GEE GRAPHICS" className="h-10 w-auto object-contain invert" crossOrigin="anonymous" />
+            <img src={logoAsset} alt="GEE GRAPHICS" className="h-10 w-auto object-contain invert" crossOrigin="anonymous" />
             <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider">{state.status}</span>
           </div>
           <div className="mt-5 text-[10px] uppercase tracking-[0.25em] text-white/60">Invoice</div>
