@@ -1,0 +1,155 @@
+
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.99 0.002 247);
+  --foreground: oklch(0.18 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 260);
+  --primary: oklch(0.22 0.03 260);
+  --primary-foreground: oklch(0.985 0.003 247);
+  --secondary: oklch(0.965 0.008 247);
+  --secondary-foreground: oklch(0.22 0.03 260);
+  --muted: oklch(0.965 0.008 247);
+  --muted-foreground: oklch(0.5 0.02 257);
+  --accent: oklch(0.95 0.01 247);
+  --accent-foreground: oklch(0.22 0.03 260);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.985 0.003 247);
+  --border: oklch(0.92 0.01 255);
+  --input: oklch(0.93 0.01 255);
+  --ring: oklch(0.7 0.04 256);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Receipt preview — perforated edges */
+.receipt-paper {
+  background: #ffffff;
+  color: #111111;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 20px 50px -20px rgba(0, 0, 0, 0.25);
+}
+.receipt-paper::before,
+.receipt-paper::after {
+  content: "";
+  display: block;
+  height: 14px;
+  background-image:
+    radial-gradient(circle at 7px 7px, transparent 6px, #ffffff 6.5px);
+  background-size: 14px 14px;
+  background-repeat: repeat-x;
+}
+.receipt-paper::before {
+  background-image:
+    radial-gradient(circle at 7px 0px, transparent 6px, #ffffff 6.5px);
+}
+.receipt-paper::after {
+  background-image:
+    radial-gradient(circle at 7px 14px, transparent 6px, #ffffff 6.5px);
+}
+.capture-clean::before,
+.capture-clean::after {
+  display: none !important;
+}
+.receipt-divider {
+  border-top: 1px dashed #c9c9c9;
+}
+
+/* Invoice preview print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #invoice-print,
+  #invoice-print * {
+    visibility: visible;
+  }
+  #invoice-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 24px;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
