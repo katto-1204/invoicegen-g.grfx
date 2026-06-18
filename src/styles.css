@@ -127,6 +127,11 @@
 .capture-clean::after {
   display: none !important;
 }
+.capture-clean {
+  box-shadow: none !important;
+  margin: 0 !important;
+  color-scheme: light !important;
+}
 .receipt-divider {
   border-top: 1px dashed #c9c9c9;
 }

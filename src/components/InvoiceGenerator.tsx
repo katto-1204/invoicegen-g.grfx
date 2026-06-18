@@ -304,10 +304,31 @@ export default function InvoiceGenerator() {
   const renderCanvas = async () => {
     const { default: html2canvas } = await import("html2canvas-pro");
     if (!printRef.current) throw new Error("Preview not ready");
+
+    // Wait for all images in the preview to be fully loaded
+    await Promise.all(
+      Array.from(printRef.current.querySelectorAll("img")).map((img) =>
+        img.complete ? Promise.resolve() : new Promise((r) => { img.onload = r; img.onerror = r; })
+      )
+    );
+
     return await html2canvas(printRef.current, {
-      scale: 2, backgroundColor: "#ffffff", useCORS: true, allowTaint: false,
-      onclone: (doc) => {
-        doc.querySelectorAll(".receipt-paper").forEach((el) => el.classList.add("capture-clean"));
+      scale: 3,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+      imageTimeout: 15000,
+      removeContainer: true,
+      foreignObjectRendering: false,
+      onclone: (_doc, el) => {
+        // Strip box-shadow and pseudo-element perforations; force white bg
+        el.style.boxShadow = "none";
+        el.style.margin = "0";
+        el.classList.add("capture-clean");
+        // Force all text colors to their explicit values so oklch vars don't bleed
+        el.style.color = "#111111";
+        el.style.background = "#ffffff";
       },
     });
   };
@@ -320,8 +341,14 @@ export default function InvoiceGenerator() {
       const isBox = state.template === "box";
       const widthMm = isBox ? 210 : state.receiptWidth;
       const heightMm = (canvas.height * widthMm) / canvas.width;
-      const pdf = new jsPDF({ unit: "mm", format: [widthMm, heightMm], orientation: "portrait" });
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, widthMm, heightMm);
+      const pdf = new jsPDF({ 
+        unit: "mm", 
+        format: [widthMm, heightMm], 
+        orientation: "portrait",
+        compress: false
+      });
+      const imgData = canvas.toDataURL("image/png", 1.0);
+      pdf.addImage(imgData, "PNG", 0, 0, widthMm, heightMm, undefined, "FAST");
       pdf.save(`${state.invoiceNumber}.pdf`);
       toast.success("PDF downloaded", { id: "pdf" });
     } catch (e) {
@@ -335,7 +362,7 @@ export default function InvoiceGenerator() {
       const canvas = await renderCanvas();
       const link = document.createElement("a");
       link.download = `${state.invoiceNumber}.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.href = canvas.toDataURL("image/png", 1.0);
       link.click();
       toast.success("Image downloaded", { id: "img" });
     } catch (e) {
