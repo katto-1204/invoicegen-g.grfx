@@ -312,9 +312,11 @@ export default function InvoiceGenerator() {
       )
     );
 
+    const isModernTemplate = state.template === "modern";
+
     return await html2canvas(printRef.current, {
       scale: 3,
-      backgroundColor: "#ffffff",
+      backgroundColor: isModernTemplate ? "#000000" : "#ffffff",
       useCORS: true,
       allowTaint: false,
       logging: false,
@@ -322,13 +324,15 @@ export default function InvoiceGenerator() {
       removeContainer: true,
       foreignObjectRendering: false,
       onclone: (_doc, el) => {
-        // Strip box-shadow and pseudo-element perforations; force white bg
+        // Strip box-shadow and pseudo-element perforations
         el.style.boxShadow = "none";
         el.style.margin = "0";
         el.classList.add("capture-clean");
-        // Force all text colors to their explicit values so oklch vars don't bleed
-        el.style.color = "#111111";
-        el.style.background = "#ffffff";
+        // Only force white background for non-modern templates
+        if (!isModernTemplate) {
+          el.style.color = "#111111";
+          el.style.background = "#ffffff";
+        }
       },
     });
   };
