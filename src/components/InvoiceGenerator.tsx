@@ -312,27 +312,35 @@ export default function InvoiceGenerator() {
       )
     );
 
-    const isModernTemplate = state.template === "modern";
+    const element = printRef.current;
+    const rect = element.getBoundingClientRect();
 
-    return await html2canvas(printRef.current, {
+    return await html2canvas(element, {
       scale: 3,
-      backgroundColor: isModernTemplate ? "#000000" : "#ffffff",
+      backgroundColor: null,
       useCORS: true,
       allowTaint: false,
       logging: false,
       imageTimeout: 15000,
       removeContainer: true,
       foreignObjectRendering: false,
-      onclone: (_doc, el) => {
-        // Strip box-shadow and pseudo-element perforations
-        el.style.boxShadow = "none";
-        el.style.margin = "0";
-        el.classList.add("capture-clean");
-        // Only force white background for non-modern templates
-        if (!isModernTemplate) {
-          el.style.color = "#111111";
-          el.style.background = "#ffffff";
-        }
+      width: rect.width,
+      height: rect.height,
+      windowWidth: rect.width,
+      windowHeight: rect.height,
+      scrollX: 0,
+      scrollY: 0,
+      onclone: (doc) => {
+        // Only remove shadows and margins - let natural CSS handle colors
+        doc.querySelectorAll(".receipt-paper").forEach((el) => {
+          (el as HTMLElement).style.boxShadow = "none";
+          (el as HTMLElement).style.margin = "0";
+          (el as HTMLElement).classList.add("capture-clean");
+        });
+        doc.querySelectorAll("#invoice-print").forEach((el) => {
+          (el as HTMLElement).style.boxShadow = "none";
+          (el as HTMLElement).style.margin = "0";
+        });
       },
     });
   };
